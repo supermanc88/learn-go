@@ -133,6 +133,24 @@ func main() {
 	rms1 := []int{1, 2, 3, 4, 5, 6, 7}
 	// 删除索引为2的元素 其实就是拆成两个切片再拼接
 	// 删除索引为index的元素 a = append(a[:index], a[index+1:]...)
+	fmt.Println("before remove cap:", cap(rms1))
+	// 删除内容会影响底层数组存储的内容
 	rms1 = append(rms1[:2], rms1[3:]...)
 	fmt.Println(rms1)
+	fmt.Println("after remove cap:", cap(rms1))
+
+	aa1 := [...]int{1, 2, 3, 4, 5} // 数组
+	qq1 := aa1[:]                  // 切片
+	fmt.Printf("qq1 addr %p\n", &qq1[0])
+	qq1 = append(qq1[:1], qq1[2:]...)
+	fmt.Printf("qq1 addr %p\n", &qq1[0])
+	fmt.Printf("after remove cap: %d %v\n", cap(qq1), qq1) // after remove cap: 5 [1 3 4 5]
+	fmt.Println(aa1)                                       // [1 3 4 5 5]	修改了底层数组
+
+	var at = make([]int, 5, 10) // 注意这里的长度是5，就说明已经有了一个切片[0,0,0,0,0] 之后在后面追加
+	for i := 0; i < 10; i++ {
+		at = append(at, i)
+	}
+	fmt.Println(at) // [0 0 0 0 0 0 1 2 3 4 5 6 7 8 9]
+
 }
