@@ -9,6 +9,9 @@ func Add(x, y int) int {
 	return x + y
 }
 
+// 当包被导入时，会自动执行此函数
+// init函数没有参数，也没有返回值
+// 也不能被主动调用
 func init() {
 	fmt.Println("import 我时 自动加载... ")
 }
